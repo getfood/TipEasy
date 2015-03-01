@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="f848ee53-390b-4ed0-81c9-494de342fe60" Publisher="CN=lobatt" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="f848ee53-390b-4ed0-81c9-494de342fe60" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="14372GetFood.TipEasy" Publisher="CN=4DBAC48B-1972-40D3-99BF-4461521C488E" Version="1.1.0.0" />
+  <mp:PhoneIdentity PhoneProductId="20f04bfd-ef68-420f-a88d-553a94c1de09" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>TipEasy</DisplayName>
-    <PublisherDisplayName>lobatt</PublisherDisplayName>
+    <PublisherDisplayName>GetFood</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>

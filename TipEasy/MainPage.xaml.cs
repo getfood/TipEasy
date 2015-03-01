@@ -42,9 +42,7 @@ namespace TipEasy
             taxRate = 0.08875;
 
 
-
-            this.NavigationCacheMode = NavigationCacheMode.Required;
-
+            this.NavigationCacheMode = NavigationCacheMode.Required;   
         }
 
         /// <summary>
@@ -69,15 +67,13 @@ namespace TipEasy
             if (text.Length == 0)
             {
                 uitaxRate.Text = uitaxRate.PlaceholderText;
-                return;
+                amount = 0;
             }
-            amount = double.Parse(text);
+            else
+            {
+                amount = double.Parse(text);
+            }
             recalculate();
-
-
-
-            total = amount * (1 + taxRate + tipRate);
-
             refreshUI();
 
         }
@@ -109,7 +105,7 @@ namespace TipEasy
 
             tipAmount = amount * tipRate;
 
-            total = amount * (1 + taxRate + tipRate);
+            total = amount + taxAmount + tipAmount;
         }
 
         private void refreshUI()
@@ -117,7 +113,12 @@ namespace TipEasy
             uitaxRate.Text = taxAmount.ToString("N");
 
             uiTipAmount.Text = "$" + tipAmount.ToString("N");
+            uiTotalAmount.Text = "$" + total.ToString("N");
         }
 
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            Amount.Focus(FocusState.Pointer);
+        }
     }
 }

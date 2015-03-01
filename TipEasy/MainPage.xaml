@@ -8,20 +8,21 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontFamily="Global User Interface">
 
-    <Grid Background="WhiteSmoke">
+    <Grid Background="WhiteSmoke" Loaded="Grid_Loaded">
         <!--<UI:AdControl x:Name="TipperAd" AdUnitId="163049"/>-->
         <TextBlock x:Name="AmountTip" Margin="13,82,0,0" TextWrapping="Wrap" Text="Bill amount" VerticalAlignment="Top" Height="47" FontFamily="Consolas" FontSize="22" HorizontalAlignment="Left" Foreground="Black"/>
         <TextBox x:Name="Amount" Margin="199,81,10,0" TextWrapping="Wrap" VerticalAlignment="Top" InputScope="Number" PlaceholderText="Before tax/tips" FontFamily="Consolas" TextChanged="Amount_TextChanged" Background="LightGray"/>
         <TextBox x:Name="uitaxRate" Margin="199,177,0,0" TextWrapping="Wrap" VerticalAlignment="Top" InputScope="Number" PlaceholderText="15%" FontFamily="Consolas" IsReadOnly="True"/>
-        <TextBlock x:Name="uitaxRateTip" Margin="13,179,0,0" TextWrapping="Wrap" Text="Tax rate" Height="47" FontFamily="Consolas" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="377"  Foreground="Black"/>
+        <TextBlock x:Name="uitaxRateTip" Margin="13,179,0,0" TextWrapping="Wrap" Text="Tax rate" Height="47" FontFamily="Consolas" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"  Foreground="Black"/>
 
-        <TextBlock x:Name="TipRateLable" Margin="13,279,0,0" TextWrapping="Wrap" Text="Tip Rate" Height="47" FontFamily="Consolas" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="377"  Foreground="Black"/>
-
-        <RadioButton x:Name="TipRate1" Margin="125,265,0,0" Checked="TipRate1_Checked" GroupName="gTipRates" HorizontalAlignment="Left" Foreground="Black"/>
-        <RadioButton x:Name="TipRate2" Margin="220,265,0,0"  GroupName="gTipRates" HorizontalAlignment="Left" Checked="TipRate2_Checked"  Foreground="Black"/>
-        <RadioButton x:Name="TipRate3" Margin="315,265,0,0" GroupName="gTipRates" HorizontalAlignment="Left" Checked="TipRate3_Checked"  Foreground="Black"/>
+        <RadioButton x:Name="TipRate1" Margin="30,265,0,0" Checked="TipRate1_Checked" GroupName="gTipRates" HorizontalAlignment="Left" Foreground="Black"/>
+        <RadioButton x:Name="TipRate2" Margin="130,265,0,0"  GroupName="gTipRates" HorizontalAlignment="Left" Checked="TipRate2_Checked"  Foreground="Black"/>
+        <RadioButton x:Name="TipRate3" Margin="230,265,0,0" GroupName="gTipRates" HorizontalAlignment="Left" Checked="TipRate3_Checked"  Foreground="Black"/>
 
 
-        <TextBox  x:Name="uiTipAmount" IsReadOnly="True" Margin="-1,385,1,0" Background="White" Height="97" FontFamily="Consolas" FontSize="72"/>
+        <TextBox  x:Name="uiTipAmount" IsReadOnly="True" Margin="156,338,0,0" Background="White" Height="97" FontFamily="Consolas" FontSize="72"/>
+        <TextBox  x:Name="uiTotalAmount" IsReadOnly="True" Margin="156,451,2,0" Background="White" Height="97" FontFamily="Consolas" FontSize="72"/>
+        <TextBlock x:Name="uiTipAmountLabel" Margin="13,372,0,0" TextWrapping="Wrap" Text="Tips" Height="47" FontFamily="Consolas" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"  Foreground="Black"/>
+        <TextBlock x:Name="uiTotalAmountLabel" Margin="13,483,0,0" TextWrapping="Wrap" Text="Total" Height="47" FontFamily="Consolas" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"  Foreground="Black"/>
     </Grid>
 </Page>
