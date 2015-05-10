@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Text.RegularExpressions;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
@@ -26,8 +17,10 @@ namespace TipEasy
         public double[] tipRates;
         public double tipRate;
         public double taxRate;
+        public string zipCode;
         public double total;
         public double tipAmount, taxAmount;
+        public Windows.Storage.ApplicationDataContainer localSettings;
 
         public MainPage()
         {
@@ -39,10 +32,21 @@ namespace TipEasy
             TipRate2.IsChecked = true;
             TipRate3.Content = tipRates[2].ToString("P");
             tipRate = tipRates[1];
-            taxRate = 0.08875;
+            
+            localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            object zipObj = localSettings.Values["zipcode"];
 
+            if (zipObj == null) {
+                taxRate = 0.08875;
+            }
+            else
+            {
+                zipCode = zipObj.ToString();
+                System.Diagnostics.Debug.WriteLine("%s", zipCode);
+                taxRate = 0.0000;
+            }
 
-            this.NavigationCacheMode = NavigationCacheMode.Required;   
+            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         /// <summary>
@@ -119,6 +123,26 @@ namespace TipEasy
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             Amount.Focus(FocusState.Pointer);
+        }
+
+        private void uiZipcode_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var zip = uiZipcode.Text;
+            System.Diagnostics.Debug.WriteLine(zip);
+            if (this.validateZipcode(zip))
+            {
+                localSettings.Values["zipcode"] = zip;
+                zipCode = zip;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Invalid zip code: " + zipCode);
+            }
+        }
+
+        private bool validateZipcode(string code)
+        {
+            return Regex.IsMatch(code, @"\d\d\d\d\d");
         }
     }
 }
