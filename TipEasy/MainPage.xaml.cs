@@ -3,6 +3,9 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System;
+using System.IO;
+using System.Collections.Generic;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -21,11 +24,13 @@ namespace TipEasy
         public double total;
         public double tipAmount, taxAmount;
         public Windows.Storage.ApplicationDataContainer localSettings;
+        public Dictionary<string, double> taxTable;
 
         public MainPage()
         {
             //defaults
             tipRates = new double[] { 0.15, 0.18, 0.20 };
+            taxTable = new Dictionary<string, double>();
             this.InitializeComponent();
             TipRate1.Content = tipRates[0].ToString("P");
             TipRate2.Content = tipRates[1].ToString("P");
@@ -33,19 +38,22 @@ namespace TipEasy
             TipRate3.Content = tipRates[2].ToString("P");
             tipRate = tipRates[1];
             
-            localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            localSettings = ApplicationData.Current.LocalSettings;
             object zipObj = localSettings.Values["zipcode"];
-
+            
             if (zipObj == null) {
-                taxRate = 0.08875;
+                zipCode = "10001";
+                taxRate = 0.08875;//New York
             }
             else
             {
                 zipCode = zipObj.ToString();
-                System.Diagnostics.Debug.WriteLine("%s", zipCode);
-                taxRate = 0.0000;
+                System.Diagnostics.Debug.WriteLine("Zipcode loaded: " + zipCode);
             }
+            uiZipcode.Text = zipCode;
 
+            //load tax rates
+            loadTaxRateTable();
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
@@ -114,7 +122,14 @@ namespace TipEasy
 
         private void refreshUI()
         {
-            uitaxRate.Text = taxAmount.ToString("N");
+            if (taxAmount == 0.0)
+            {
+                uitaxRate.Text = taxRate.ToString("P");
+            }
+            else
+            {
+                uitaxRate.Text = taxAmount.ToString("N");
+            }
 
             uiTipAmount.Text = "$" + tipAmount.ToString("N");
             uiTotalAmount.Text = "$" + total.ToString("N");
@@ -133,16 +148,61 @@ namespace TipEasy
             {
                 localSettings.Values["zipcode"] = zip;
                 zipCode = zip;
+                setTaxRateFromZipcode(zip);
+                recalculate();
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Invalid zip code: " + zipCode);
+                uiZipcode.Text = "Invalid zipcode";
             }
+            refreshUI();
         }
 
         private bool validateZipcode(string code)
         {
             return Regex.IsMatch(code, @"\d\d\d\d\d");
+        }
+
+        private async System.Threading.Tasks.Task loadTaxRateTable()
+        {
+            StorageFolder storageFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            
+            var taxFile = await storageFolder.GetFileAsync(@"Assets\zip_tax.csv");
+            //System.Diagnostics.Debug.WriteLine("Loading tax table " + taxFile.ToString());
+            var sr = new StreamReader(await taxFile.OpenStreamForReadAsync());
+            // string text = await Windows.Storage.FileIO.ReadTextAsync(taxFile);
+            string headerLine = sr.ReadLine();
+            //System.Diagnostics.Debug.WriteLine(headerLine);
+            string line;
+            // read a line while we have a line to read
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] dataString = line.Split(new char[] { ',' });
+                //System.Diagnostics.Debug.WriteLine("DEBUG:" + line);
+                if (dataString.Length < 2)
+                {
+                    continue;
+                }
+                //System.Diagnostics.Debug.WriteLine(dataString[0] + "Taxrate: " + dataString[1]);
+                this.taxTable[dataString[0]] = double.Parse(dataString[1]);
+            }
+
+            setTaxRateFromZipcode(zipCode);
+            
+        }
+
+        private void setTaxRateFromZipcode(string zip)
+        {
+            if (taxTable.ContainsKey(zip))
+            {
+                taxRate = taxTable[zip];
+                // System.Diagnostics.Debug.WriteLine("DEBUG: Tax rate for zip code" + zipCode + " : " + taxTable[zipCode]);
+            }
+            else
+            {
+                uiZipcode.Text = "Invalid zipcode";
+            }
+            refreshUI();
         }
     }
 }

@@ -26,6 +26,6 @@
         <TextBox  x:Name="uiTotalAmount" IsReadOnly="True" Margin="156,386,2,0" Background="White" Height="97" FontFamily="Consolas" FontSize="72"/>
         <TextBlock x:Name="uiTipAmountLabel" Margin="13,307,0,0" TextWrapping="Wrap" Text="Tips" Height="47" FontFamily="Consolas" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"  Foreground="Black"/>
         <TextBlock x:Name="uiTotalAmountLabel" Margin="13,418,0,0" TextWrapping="Wrap" Text="Total" Height="47" FontFamily="Consolas" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"  Foreground="Black"/>
-        <UI:AdControl AutoRefreshIntervalInSeconds="60" ApplicationId="0b15ac4a-12b8-4c15-ba33-37ba227377da" AdUnitId="210014" HorizontalAlignment="Center" Height="80" IsAutoRefreshEnabled="True" VerticalAlignment="Bottom" Width="480"/>
+        <UI:AdControl AutoRefreshIntervalInSeconds="60" ApplicationId="0b15ac4a-12b8-4c15-ba33-37ba227377da" AdUnitId="210014" HorizontalAlignment="Center" Height="50" IsAutoRefreshEnabled="True" VerticalAlignment="Bottom" Width="300"/>
     </Grid>
 </Page>
