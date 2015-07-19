@@ -7,8 +7,6 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
-
 namespace TipEasy
 {
     /// <summary>
